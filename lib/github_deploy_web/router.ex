@@ -18,6 +18,12 @@ defmodule GithubDeployWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    live "/deploys", DeployLive.Index, :index
+    live "/deploys/new", DeployLive.Index, :new
+    live "/deploys/:id/edit", DeployLive.Index, :edit
+
+    live "/deploys/:id", DeployLive.Show, :show
+    live "/deploys/:id/show/edit", DeployLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

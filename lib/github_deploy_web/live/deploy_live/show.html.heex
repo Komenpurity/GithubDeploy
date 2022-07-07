@@ -1,0 +1,26 @@
+<h1>Show Deploy</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.deploy_show_path(@socket, :show, @deploy)}>
+    <.live_component
+      module={GithubDeployWeb.DeployLive.FormComponent}
+      id={@deploy.id}
+      title={@page_title}
+      action={@live_action}
+      deploy={@deploy}
+      return_to={Routes.deploy_show_path(@socket, :show, @deploy)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @deploy.name %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.deploy_show_path(@socket, :edit, @deploy), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.deploy_index_path(@socket, :index) %></span>

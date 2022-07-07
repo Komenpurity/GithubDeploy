@@ -1,0 +1,39 @@
+<h1>Listing Deploys</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.deploy_index_path(@socket, :index)}>
+    <.live_component
+      module={GithubDeployWeb.DeployLive.FormComponent}
+      id={@deploy.id || :new}
+      title={@page_title}
+      action={@live_action}
+      deploy={@deploy}
+      return_to={Routes.deploy_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="deploys">
+    <%= for deploy <- @deploys do %>
+      <tr id={"deploy-#{deploy.id}"}>
+        <td><%= deploy.name %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.deploy_show_path(@socket, :show, deploy) %></span>
+          <span><%= live_patch "Edit", to: Routes.deploy_index_path(@socket, :edit, deploy) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: deploy.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Deploy", to: Routes.deploy_index_path(@socket, :new) %></span>
